@@ -25,6 +25,8 @@ public class Main extends Application {
     stage.setScene(scene);
 
     stage.show();
+
+    grid.animate();
   }
 
   public static void main(String[] args) {

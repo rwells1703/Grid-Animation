@@ -44,4 +44,33 @@ public class Grid {
   private Node getCell(int col, int row) {
     return gridPane.getChildren().get(row + col * dimension + 1);
   }
+
+  public Node getHighlightedCell(int t) {
+    int col = 0;
+    int row = 0;
+
+    int side = t / (dimension-1);
+
+    if (side == 0) {
+      col = t;
+      row = 0;
+    } else if (side == 1) {
+      col = (dimension - 1);
+      row = t - (dimension - 1);
+    } else if (side == 2) {
+      col = (dimension - 1) - t % (dimension - 1);
+      row = (dimension-1);
+    } else if (side == 3) {
+      col = 0;
+      row = (dimension - 1) - t % (dimension - 1);
+    }
+
+    return getCell(col, row);
+  }
+
+  public void animate() {
+    getHighlightedCell(1).setStyle("-fx-background-color: red");
+    getHighlightedCell(5).setStyle("-fx-background-color: red");
+    getHighlightedCell(11).setStyle("-fx-background-color: red");
+  }
 }
