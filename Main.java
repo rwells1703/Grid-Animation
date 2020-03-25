@@ -16,7 +16,7 @@ public class Main extends Application {
       windowSize = screenBounds.getHeight()*0.8;
     }
 
-    int dimension = 4;
+    int dimension = 5;
 
     Grid grid = new Grid(dimension, windowSize);
     root.getChildren().add(grid.getGridPane());
