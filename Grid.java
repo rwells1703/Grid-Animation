@@ -3,16 +3,19 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.RowConstraints;
+import javafx.util.Duration;
+import javafx.animation.Timeline;
+import javafx.animation.KeyFrame;
 
 public class Grid {
   private final GridPane gridPane;
   private final int dimension;
+  private int t = 0;
 
   public Grid(int dimension, double windowSize) {
     this.dimension = dimension;
 
     gridPane = new GridPane();
-    gridPane.setGridLinesVisible(true);
     gridPane.setMaxHeight(windowSize);
     gridPane.setMaxWidth(windowSize);
 
@@ -42,7 +45,7 @@ public class Grid {
   }
 
   private Node getCell(int col, int row) {
-    return gridPane.getChildren().get(row + col * dimension + 1);
+    return gridPane.getChildren().get(row + col * dimension);
   }
 
   private Node getCellInShell(int n, int shell) {
@@ -96,8 +99,14 @@ public class Grid {
   }
 
   public void animate() {
-    for (int t = 0; t < dimension*dimension; t++) {
-      getHighlightedCell(t).setStyle("-fx-background-color: green");
-    }
+    Timeline timeline = new Timeline(
+      new KeyFrame(Duration.millis(50), e -> {
+        getHighlightedCell(t).setStyle("-fx-background-color: green");
+        t++;
+      })
+    );
+
+    timeline.setCycleCount(dimension*dimension);
+    timeline.play();
   }
 }
