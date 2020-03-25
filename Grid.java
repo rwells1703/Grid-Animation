@@ -45,36 +45,59 @@ public class Grid {
     return gridPane.getChildren().get(row + col * dimension + 1);
   }
 
-  public Node getHighlightedCell(int t, int shell) {
+  private Node getCellInShell(int n, int shell) {
     int min = shell;
     int max = dimension-1 - shell;
 
     int sideLength = max - min;
 
     if (sideLength != 0) {
-      int side = t / sideLength;
+      int side = n / sideLength;
 
       if (side == 0) {
         // Top
-        return getCell(min + t, min);
+        return getCell(min + n, min);
       } else if (side == 1) {
         // Right
-        return getCell(max, min + t % sideLength);
+        return getCell(max, min + n % sideLength);
       } else if (side == 2) {
         // Bottom
-        return getCell(max - t % sideLength, max);
+        return getCell(max - n % sideLength, max);
       } else if (side == 3) {
         // Left
-        return getCell(min, max - t % sideLength);
+        return getCell(min, max - n % sideLength);
       }
     }
 
     return getCell(shell, shell);
   }
 
+  private int getShellSize(int shell) {
+    int length = dimension - 2*shell;
+
+    if (length == 1)
+      return 1;
+
+    return 4*(length - 1);
+  }
+
+  private Node getHighlightedCell(int t) {
+    for (int shell = 0; shell <= dimension/2; shell++) {
+      int shellSize = getShellSize(shell);
+
+      if (t < shellSize) {
+        return getCellInShell(t, shell);
+      }
+
+      t -= shellSize;
+    }
+
+    return null;
+  }
+
   public void animate() {
-    getHighlightedCell(0,0).setStyle("-fx-background-color: red");
-    getHighlightedCell(0,1).setStyle("-fx-background-color: red");
-    getHighlightedCell(0,2).setStyle("-fx-background-color: red");
+    for (int t = 0; t < dimension*dimension; t++) {
+      getHighlightedCell(t).setStyle("-fx-background-color: green");
+    }
   }
 }
