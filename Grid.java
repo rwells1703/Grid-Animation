@@ -12,7 +12,6 @@ import javafx.animation.Timeline;
 public class Grid {
   private final GridPane gridPane;
   private final int dimension;
-  private int time = 0;
 
   public Grid(int dimension, double windowSize) {
     this.dimension = dimension;
@@ -133,6 +132,7 @@ public class Grid {
   public void animate() {
     // Handles every time a new frame of the animation is needed
     EventHandler<ActionEvent> highlightCell = new EventHandler<>() {
+      private int time = 0;
       // Updates the grid highlighting for the next cell along
       @Override
       public void handle(ActionEvent e) {
